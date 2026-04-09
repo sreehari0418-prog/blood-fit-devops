@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -25,4 +28,15 @@ jobs:
       with:
         context: .
         push: true
-        tags: infhari/blood-fit:latest
+        tags: |
+          infhari/blood-fit:latest
+          infhari/blood-fit:${{ github.sha }}
+
+    - name: Update Kubernetes Manifest
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        sed -i "s|image: infhari/blood-fit:.*|image: infhari/blood-fit:${{ github.sha }}|" k8s/manifests.yaml
+        git add k8s/manifests.yaml
+        git commit -m "chore: update image tag to ${{ github.sha }} [skip ci]"
+        git push
