@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: infhari/blood-fit:4560fae8e6d92a34a8c18ed736f2197e78012c89
+        image: infhari/blood-fit:0a6e8d705448db13cdbbf3f238a678e86fa07eae
         ports:
         - containerPort: 80
 ---
