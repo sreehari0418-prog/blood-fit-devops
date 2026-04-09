@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Fit - AI Health Analysis</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background">
+        <div class="grid-overlay"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <div class="logo">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00f2fe" />
+                            <stop offset="100%" stop-color="#4facfe" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                <span>Blood Fit</span>
+            </div>
+            <div class="status-badge">
+                <span class="pulse-dot"></span>
+                <span>System Online</span>
+            </div>
+        </header>
+
+        <section class="upload-section glass-panel">
+            <div class="header-text">
+                <h1>Analyze Your Blood Report</h1>
+                <p>Upload your report. Our serverless architecture will extract, analyze, and store your health markers securely using AWS Machine Learning.</p>
+            </div>
+            
+            <div class="drop-zone" id="drop-zone">
+                <input type="file" id="file-input" accept="image/png,image/jpeg" hidden>
+                <div class="drop-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                </div>
+                <h3>Drag & Drop your report here</h3>
+                <p>or <button class="text-link" id="browse-btn">click to browse</button></p>
+                <span class="file-limits">Supported: JPG, PNG (Max 5MB)</span>
+            </div>
+
+            <div class="analysis-panel hidden" id="analysis-panel">
+                <div class="file-details">
+                    <div class="file-info">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4facfe" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        <span id="file-name-display">report.pdf</span>
+                    </div>
+                    <button id="remove-file-btn" class="icon-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+
+                <div class="architecture-flow" id="pipeline-flow">
+                    <div class="step" id="step-s3">
+                        <div class="step-icon">1</div>
+                        <span>Upload to S3</span>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step" id="step-textract">
+                        <div class="step-icon">2</div>
+                        <span>AWS Textract</span>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step" id="step-comprehend">
+                        <div class="step-icon">3</div>
+                        <span>Comprehend NLP</span>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step" id="step-db">
+                        <div class="step-icon">4</div>
+                        <span>DynamoDB Save</span>
+                    </div>
+                </div>
+
+                <button class="primary-btn" id="analyze-btn">
+                    <span class="btn-text">Start Analysis Pipeline</span>
+                    <div class="loader hidden"></div>
+                </button>
+            </div>
+        </section>
+        
+        <div class="results-panel glass-panel hidden" id="results-panel">
+            <h2>Analysis Results</h2>
+            <p class="subtitle">Data retrieved from DynamoDB via Backend API</p>
+            <div id="mock-results-content" class="results-content">
+                <!-- Mock results will go here -->
+            </div>
+            <button class="secondary-btn" id="reset-btn">Upload Another Report</button>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

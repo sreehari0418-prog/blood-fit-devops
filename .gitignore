@@ -1,0 +1,10 @@
+.terraform/
+*.tfstate*
+terraform.tfvars
+.DS_Store
+response.json
+node_modules/
+dist/
+.env
+*.zip
+terraform/.terraform/
